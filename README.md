@@ -4,7 +4,7 @@ A high-performance, purely client-side web application suite designed to help en
 
 ## Live Demo
 
-[Insert Your GitHub Pages Link Here]
+[Visualizer Demo](https://r-pradhyumna.github.io/Visualizer/)
 
 ---
 
