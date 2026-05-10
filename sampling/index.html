@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sampling Theorem & Nyquist Visualizer</title>
+    <meta
+      name="description"
+      content="Interactive educational tool demonstrating the Nyquist-Shannon Sampling Theorem, signal reconstruction, and the effects of aliasing."
+    />
+    <meta
+      name="keywords"
+      content="Nyquist theorem, sampling rate, aliasing, signal processing, interactive visualizer, engineering education"
+    />
+    <meta name="author" content="Communications Engineering Dept" />
+
+    <link rel="preconnect" href="https://cdn.plot.ly" />
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" defer></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <aside id="controls" aria-label="Sampling Parameters">
+      <h2>Sampling & Nyquist</h2>
+
+      <nav style="margin-bottom: 15px" aria-label="Breadcrumb">
+        <a
+          href="../"
+          style="
+            display: block;
+            text-align: center;
+            background-color: #e9ecef;
+            color: #0056b3;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            border: 1px solid #ccc;
+          "
+          aria-label="Return to Main Suite Menu"
+        >
+          &larr; Back to Main Menu
+        </a>
+      </nav>
+
+      <div
+        id="nyquist_status"
+        role="status"
+        aria-live="polite"
+        style="
+          padding: 10px;
+          border-radius: 4px;
+          margin-bottom: 15px;
+          font-weight: bold;
+          text-align: center;
+          border: 2px solid #ccc;
+          transition: all 0.3s ease;
+        "
+      >
+        Status: Initializing...
+      </div>
+
+      <div class="control-group">
+        <label for="fm_slider">Message Frequency (fm Hz)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="fm_slider"
+            min="1"
+            max="20"
+            step="1"
+            value="5"
+            oninput="
+              fm_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="fm_num"
+            min="1"
+            max="20"
+            step="1"
+            value="5"
+            aria-label="Message Frequency numeric input"
+            oninput="
+              fm_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="fs_slider">Sampling Frequency (fs Hz)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="fs_slider"
+            min="1"
+            max="100"
+            step="1"
+            value="20"
+            oninput="
+              fs_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="fs_num"
+            min="1"
+            max="100"
+            step="1"
+            value="20"
+            aria-label="Sampling Frequency numeric input"
+            oninput="
+              fs_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="phase_slider">Signal Phase Offset (rad)</label>
+        <p style="font-size: 11px; margin-top: 0; color: #777" id="phase_desc">
+          *Useful to show edge cases when fs = 2*fm
+        </p>
+        <div class="input-row">
+          <input
+            type="range"
+            id="phase_slider"
+            min="0"
+            max="3.14"
+            step="0.1"
+            value="0.5"
+            aria-describedby="phase_desc"
+            oninput="
+              phase_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="phase_num"
+            min="0"
+            max="3.14"
+            step="0.1"
+            value="0.5"
+            aria-label="Phase offset numeric input"
+            oninput="
+              phase_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+    </aside>
+
+    <main id="plot-container" aria-label="Interactive Waveform Plot">
+      <div id="plot"></div>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

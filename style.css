@@ -1,0 +1,124 @@
+/* --- CSS Reset & Base Styles --- */
+:root {
+  --primary-color: #0056b3;
+  --primary-hover: #004494;
+  --text-main: #333333;
+  --text-muted: #666666;
+  --bg-color: #f0f2f5;
+  --card-bg: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* System font stack for zero-latency loading and perfect legibility */
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  align-items: center;
+}
+
+/* --- Typography & Header --- */
+.site-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 800px;
+}
+
+.site-header h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+.site-header p {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+}
+
+/* --- Layout Grid --- */
+.grid-container {
+  display: grid;
+  /* Automatically handles mobile vs desktop layout */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  width: 100%;
+  list-style: none; /* Removes bullet points from ul */
+}
+
+/* --- Cards --- */
+.card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Hover effects for mouse users */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1; /* Pushes the button to the bottom */
+}
+
+/* --- Buttons --- */
+.card a {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+.card a:hover {
+  background-color: var(--primary-hover);
+}
+
+/* A11y: Keyboard Focus Outline */
+.card a:focus-visible {
+  outline: 3px solid #ffaa00;
+  outline-offset: 2px;
+}
+
+/* --- Footer --- */
+.site-footer {
+  margin-top: auto; /* Pushes footer to the bottom of the screen */
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}

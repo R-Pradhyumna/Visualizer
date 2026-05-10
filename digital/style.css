@@ -1,0 +1,66 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  margin: 0;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+#controls {
+  width: 380px;
+  padding: 15px 20px;
+  background: #ffffff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  z-index: 10;
+}
+#plot-container {
+  flex-grow: 1;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+#plot {
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+}
+h2 {
+  color: #333;
+  border-bottom: 2px solid #0056b3;
+  padding-bottom: 5px;
+  margin-top: 0;
+  font-size: 1.3em;
+}
+.control-group {
+  margin-bottom: 12px;
+}
+.control-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #555;
+}
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.input-row input[type="range"] {
+  flex-grow: 1;
+  cursor: pointer;
+}
+.input-row input[type="number"] {
+  width: 75px;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}

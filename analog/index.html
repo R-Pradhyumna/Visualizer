@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Analog Modulation Visualizer | AM, FM, PM</title>
+    <meta
+      name="description"
+      content="Interactive educational tool demonstrating continuous wave analog modulation including Amplitude, Frequency, and Phase Modulation."
+    />
+    <meta
+      name="keywords"
+      content="analog modulation, AM, FM, PM, signal processing, communication systems, engineering education, interactive visualizer"
+    />
+    <meta name="author" content="Communications Engineering Dept" />
+
+    <link rel="preconnect" href="https://cdn.plot.ly" />
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" defer></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <aside id="controls" aria-label="Analog Modulation Parameters">
+      <h2>Analog Modulation</h2>
+
+      <nav style="margin-bottom: 15px" aria-label="Breadcrumb">
+        <a
+          href="../"
+          style="
+            display: block;
+            text-align: center;
+            background-color: #e9ecef;
+            color: #0056b3;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            border: 1px solid #ccc;
+          "
+          aria-label="Return to Main Suite Menu"
+        >
+          &larr; Back to Main Menu
+        </a>
+      </nav>
+
+      <div class="control-group">
+        <label for="mod_type">Modulation Technique</label>
+        <select
+          id="mod_type"
+          onchange="
+            handleModTypeChange();
+            updatePlot();
+          "
+        >
+          <option value="AM">Amplitude Modulation (AM)</option>
+          <option value="FM">Frequency Modulation (FM)</option>
+          <option value="PM">Phase Modulation (PM)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="Am_slider">Message Amplitude (Am)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="Am_slider"
+            min="0.1"
+            max="5.0"
+            step="0.1"
+            value="1.0"
+            oninput="
+              Am_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="Am_num"
+            min="0.1"
+            max="5.0"
+            step="0.1"
+            value="1.0"
+            aria-label="Message Amplitude numeric input"
+            oninput="
+              Am_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="Ac_slider">Carrier Amplitude (Ac)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="Ac_slider"
+            min="0.1"
+            max="5.0"
+            step="0.1"
+            value="1.0"
+            oninput="
+              Ac_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="Ac_num"
+            min="0.1"
+            max="5.0"
+            step="0.1"
+            value="1.0"
+            aria-label="Carrier Amplitude numeric input"
+            oninput="
+              Ac_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="Fm_slider">Message Frequency (Fm Hz)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="Fm_slider"
+            min="1"
+            max="200"
+            step="1"
+            value="50"
+            oninput="
+              Fm_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="Fm_num"
+            min="1"
+            max="200"
+            step="1"
+            value="50"
+            aria-label="Message Frequency numeric input"
+            oninput="
+              Fm_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="Fc_slider"
+          >Carrier Frequency (Fc Hz) <br /><small
+            style="font-weight: normal"
+            id="fc_desc"
+            >*Recommended Fc ≥ 10 × Fm</small
+          ></label
+        >
+        <div class="input-row">
+          <input
+            type="range"
+            id="Fc_slider"
+            min="500"
+            max="5000"
+            step="10"
+            value="1000"
+            aria-describedby="fc_desc"
+            oninput="
+              Fc_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="Fc_num"
+            min="500"
+            max="5000"
+            step="10"
+            value="1000"
+            aria-label="Carrier Frequency numeric input"
+            oninput="
+              Fc_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="Pm_slider">Message Phase (Pm rad)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="Pm_slider"
+            min="0"
+            max="6.283"
+            step="0.01"
+            value="0"
+            oninput="
+              Pm_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="Pm_num"
+            min="0"
+            max="6.283"
+            step="0.01"
+            value="0"
+            aria-label="Message Phase numeric input"
+            oninput="
+              Pm_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="Pc_slider">Carrier Phase (Pc rad)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="Pc_slider"
+            min="0"
+            max="6.283"
+            step="0.01"
+            value="0"
+            oninput="
+              Pc_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="Pc_num"
+            min="0"
+            max="6.283"
+            step="0.01"
+            value="0"
+            aria-label="Carrier Phase numeric input"
+            oninput="
+              Pc_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group" id="group_am_idx">
+        <label for="mu_slider">AM Modulation Index (μ)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="mu_slider"
+            min="0"
+            max="2"
+            step="0.1"
+            value="0.7"
+            oninput="
+              mu_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="mu_num"
+            min="0"
+            max="2"
+            step="0.1"
+            value="0.7"
+            aria-label="AM Modulation Index numeric input"
+            oninput="
+              mu_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group" id="group_fm_idx" style="display: none">
+        <label for="beta_slider">FM Modulation Index (β)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="beta_slider"
+            min="0"
+            max="20"
+            step="0.1"
+            value="5"
+            oninput="
+              beta_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="beta_num"
+            min="0"
+            max="20"
+            step="0.1"
+            value="5"
+            aria-label="FM Modulation Index numeric input"
+            oninput="
+              beta_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group" id="group_pm_idx" style="display: none">
+        <label for="kp_slider">PM Modulation Index (kp)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="kp_slider"
+            min="0"
+            max="6.283"
+            step="0.01"
+            value="1.57"
+            oninput="
+              kp_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="kp_num"
+            min="0"
+            max="6.283"
+            step="0.01"
+            value="1.57"
+            aria-label="PM Modulation Index numeric input"
+            oninput="
+              kp_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+    </aside>
+
+    <main id="plot-container" aria-label="Interactive Waveform Plot">
+      <div id="plot"></div>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>

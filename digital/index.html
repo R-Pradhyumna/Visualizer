@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Digital Modulation Visualizer | ASK, FSK, BPSK</title>
+    <meta
+      name="description"
+      content="Interactive educational tool demonstrating digital modulation techniques including Amplitude, Frequency, and Phase Shift Keying."
+    />
+    <meta
+      name="keywords"
+      content="digital modulation, ASK, FSK, BPSK, shift keying, signal processing, engineering education"
+    />
+    <meta name="author" content="Communications Engineering Dept" />
+
+    <link rel="preconnect" href="https://cdn.plot.ly" />
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" defer></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <aside id="controls" aria-label="Digital Modulation Parameters">
+      <h2>Digital Modulation</h2>
+
+      <nav style="margin-bottom: 15px" aria-label="Breadcrumb">
+        <a
+          href="../"
+          style="
+            display: block;
+            text-align: center;
+            background-color: #e9ecef;
+            color: #0056b3;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            border: 1px solid #ccc;
+          "
+          aria-label="Return to Main Suite Menu"
+        >
+          &larr; Back to Main Menu
+        </a>
+      </nav>
+
+      <div class="control-group">
+        <label for="mod_type">Modulation Technique</label>
+        <select id="mod_type" onchange="updatePlot()">
+          <option value="ASK">Amplitude Shift Keying (ASK)</option>
+          <option value="FSK">Frequency Shift Keying (FSK)</option>
+          <option value="BPSK">Binary Phase Shift Keying (BPSK)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="binary_input">Binary Message (0s and 1s only)</label>
+        <input
+          type="text"
+          id="binary_input"
+          value="10110"
+          oninput="
+            validateBinary(this);
+            updatePlot();
+          "
+          style="
+            width: 100%;
+            padding: 8px;
+            font-family: monospace;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+          "
+        />
+      </div>
+
+      <div class="control-group">
+        <label for="Ac_slider">Carrier Amplitude (Ac)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="Ac_slider"
+            min="0.5"
+            max="3.0"
+            step="0.1"
+            value="1.0"
+            oninput="
+              Ac_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="Ac_num"
+            min="0.5"
+            max="3.0"
+            step="0.1"
+            value="1.0"
+            aria-label="Carrier Amplitude numeric input"
+            oninput="
+              Ac_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="Fc_slider">Carrier Frequency (Fc Hz)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="Fc_slider"
+            min="1"
+            max="10"
+            step="0.5"
+            value="3"
+            oninput="
+              Fc_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="Fc_num"
+            min="1"
+            max="10"
+            step="0.5"
+            value="3"
+            aria-label="Carrier Frequency numeric input"
+            oninput="
+              Fc_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="Tb_slider">Bit Duration (Tb seconds)</label>
+        <div class="input-row">
+          <input
+            type="range"
+            id="Tb_slider"
+            min="0.5"
+            max="2.0"
+            step="0.1"
+            value="1.0"
+            oninput="
+              Tb_num.value = this.value;
+              updatePlot();
+            "
+          />
+          <input
+            type="number"
+            id="Tb_num"
+            min="0.5"
+            max="2.0"
+            step="0.1"
+            value="1.0"
+            aria-label="Bit Duration numeric input"
+            oninput="
+              Tb_slider.value = this.value;
+              updatePlot();
+            "
+          />
+        </div>
+      </div>
+    </aside>
+
+    <main id="plot-container" aria-label="Interactive Waveform Plot">
+      <div id="plot"></div>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
